@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Ride.css';
 import urls from '../urls';
+import moment from 'moment';
 
 function Ride({ ride }) {
     const [price, setPrice] = useState(undefined);
@@ -20,9 +21,15 @@ function Ride({ ride }) {
         fetchPrice();
     }, [ride.distance, ride.startTime]);
 
-    const longRideClass = ride.distance > 2 ? 'Long-ride' : ''
+    const handleRideClick = () => {
+        const formattedDuration = moment.utc(ride.duration * 1000).format('HH:mm:ss');
+        const arrivalTime = moment(ride.startTime).add(ride.duration, 's').toISOString();
+        alert(`${formattedDuration} - ${arrivalTime}`);
+    }
+
+    const longRideClass = ride.distance > 2 ? 'Long-ride' : '';
     return (
-        <div className={`Ride ${longRideClass}`}>
+        <div className={`Ride ${longRideClass}`} onClick={handleRideClick}>
             <div>Ride N°{ride.id}</div>
             <div>Price: {price}</div>
         </div>
