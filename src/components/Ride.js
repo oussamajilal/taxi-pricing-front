@@ -6,6 +6,7 @@ import moment from 'moment';
 
 function Ride({ ride }) {
     const [price, setPrice] = useState(undefined);
+    const [isClicked, setIsClicked] = useState(false);
 
     useEffect(() => {
         async function fetchPrice() {
@@ -22,6 +23,8 @@ function Ride({ ride }) {
     }, [ride.distance, ride.startTime]);
 
     const handleRideClick = () => {
+        setIsClicked(true);
+
         const formattedDuration = moment.utc(ride.duration * 1000).format('HH:mm:ss');
         const arrivalTime = moment(ride.startTime).add(ride.duration, 's').toISOString();
         alert(`${formattedDuration} - ${arrivalTime}`);
@@ -30,7 +33,10 @@ function Ride({ ride }) {
     const longRideClass = ride.distance > 2 ? 'Long-ride' : '';
     return (
         <div className={`Ride ${longRideClass}`} onClick={handleRideClick}>
-            <div>Ride N°{ride.id}</div>
+            <div>
+                Ride N°{ride.id}
+                {isClicked && <span> - Clicked</span>}
+            </div>
             <div>Price: {price}</div>
         </div>
     );
