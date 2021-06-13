@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Ride from './Ride';
+import urls from '../urls';
 
 function RideList() {
     const [rides, setRides] = useState([]);
 
     useEffect(() => {
         async function fetchRides() {
-            const result = await axios(
-                'http://localhost:8080/rides',
-            );
+            const result = await axios(urls.rideList);
             setRides(result.data);
         };
         fetchRides();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Ride.css';
+import urls from '../urls';
 
 function Ride({ ride }) {
     const [price, setPrice] = useState(undefined);
@@ -8,13 +9,12 @@ function Ride({ ride }) {
     useEffect(() => {
         async function fetchPrice() {
             const result = await axios.post(
-                'http://localhost:8080/rides/calculate-price',
+                urls.rideCalculatePrice,
                 {
                     distance: ride.distance,
                     startTime: ride.startTime,
                 }
             );
-            console.log(result.data);
             setPrice(result.data.price);
         };
         fetchPrice();
